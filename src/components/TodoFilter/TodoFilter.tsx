@@ -1,13 +1,12 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { RootState } from '../../app/store';
-import { filterSlice, FilterState } from '../../features/filter';
-// import { Status } from '../../features/filter';
+import { filterSlice } from '../../features/filter';
+import { Status } from '../../types/Status';
 
 export const TodoFilter: React.FC = () => {
   const dispatch = useAppDispatch();
-  const query = useAppSelector((state: RootState) => state.filter.query);
-  const status = useAppSelector((state: RootState) => state.filter.status);
+  const query = useAppSelector(state => state.filter.query);
+  const status = useAppSelector(state => state.filter.status);
 
   return (
     <form
@@ -20,11 +19,7 @@ export const TodoFilter: React.FC = () => {
             data-cy="statusSelect"
             value={status}
             onChange={e =>
-              dispatch(
-                filterSlice.actions.setStatus(
-                  e.target.value as FilterState['status'],
-                ),
-              )
+              dispatch(filterSlice.actions.setStatus(e.target.value as Status))
             }
           >
             <option value="all">All</option>
@@ -55,6 +50,7 @@ export const TodoFilter: React.FC = () => {
               type="button"
               className="delete"
               onClick={() => dispatch(filterSlice.actions.setQuery(''))}
+              aria-label="Clear search"
             />
           )}
         </span>

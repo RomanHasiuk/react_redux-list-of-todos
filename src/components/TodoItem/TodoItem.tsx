@@ -39,6 +39,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
           className="button"
           type="button"
           onClick={() => onClick(todo)}
+          aria-label={isActive ? 'Hide details' : 'Show details'}
         >
           <span className="icon">
             <i

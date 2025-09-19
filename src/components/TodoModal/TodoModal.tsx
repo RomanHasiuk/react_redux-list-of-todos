@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import { User } from '../../types/User';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { RootState } from '../../app/store';
 import { getUser } from '../../api';
 import { currentTodoSlice } from '../../features/currentTodo';
 import classNames from 'classnames';
@@ -11,16 +10,19 @@ export const TodoModal: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();
-  const currTodo = useAppSelector((state: RootState) => state.currentTodo);
+  const currTodo = useAppSelector(state => state.currentTodo);
 
   useEffect(() => {
     if (currTodo) {
+      setIsLoading(true);
+      setCurrentUser(null);
       getUser(currTodo.userId)
         .then(userFromServer => {
           setCurrentUser(userFromServer);
         })
         .catch(e => {
-          throw new Error(e);
+          // eslint-disable-next-line no-console
+          console.error(e);
         })
         .finally(() => setIsLoading(false));
     }
@@ -58,6 +60,7 @@ export const TodoModal: React.FC = () => {
                 onClick={() =>
                   dispatch(currentTodoSlice.actions.clearCurrentTodo())
                 }
+                aria-label="Close modal"
               />
             </header>
 

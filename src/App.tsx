@@ -1,26 +1,27 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { Loader, TodoFilter, TodoList, TodoModal } from './components';
-import { RootState } from './app/store';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { getTodos } from './api';
 import { todosSlice } from './features/todos';
 
 export const App: React.FC = () => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const currTodo = useAppSelector((state: RootState) => state.currentTodo);
+  const [isLoading, setIsLoading] = useState(true);
+  const currTodo = useAppSelector(state => state.currentTodo);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     getTodos()
       .then(todosFromServer => {
         dispatch(todosSlice.actions.setTodos(todosFromServer));
+        setIsLoading(false);
       })
       .catch(e => {
-        throw new Error(e);
-      })
-      .finally(() => setIsLoading(false));
+        // eslint-disable-next-line no-console
+        console.error(e);
+        setIsLoading(false);
+      });
   }, [dispatch]);
 
   return (

@@ -5,12 +5,13 @@ export const todosSlice = createSlice({
   name: 'todos',
   initialState: [] as Todo[],
   reducers: {
+    // Replace the todo list with the fetched payload
     setTodos: (state, action: PayloadAction<Todo[]>) => {
       return action.payload;
     },
-    toggleCompleted: (state, action: PayloadAction<Todo>) => {
+    toggleCompleted: (state, action: PayloadAction<number>) => {
       const todoId = action.payload.id;
-      const todoToToggle = state.find(todo => todo.id === todoId);
+      const todoToToggle = state.find(t => t.id === todoId);
 
       if (todoToToggle) {
         todoToToggle.completed = !todoToToggle.completed;

@@ -1,16 +1,15 @@
 /* eslint-disable */
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { RootState } from '../../app/store';
 import { TodoItem } from '../TodoItem';
 import { currentTodoSlice } from '../../features/currentTodo';
 
 export const TodoList: React.FC = () => {
-  const todos = useAppSelector((state: RootState) => state.todos);
-  const filter = useAppSelector((state: RootState) => state.filter.query);
-  const currentTodo = useAppSelector((state: RootState) => state.currentTodo);
+  const todos = useAppSelector(state => state.todos);
+  const filter = useAppSelector(state => state.filter.query);
+  const currentTodo = useAppSelector(state => state.currentTodo);
   const dispatch = useAppDispatch();
-  const status = useAppSelector((state: RootState) => state.filter.status);
+  const status = useAppSelector(state => state.filter.status);
 
   const filteredTodos = todos.filter(todo => {
     const matchesQuery = todo.title

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 export const TodoModal: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const currTodo = useAppSelector(state => state.currentTodo);
 
@@ -51,8 +51,6 @@ export const TodoModal: React.FC = () => {
               >
                 {`Todo #${currTodo.id}`}
               </div>
-
-              {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
               <button
                 type="button"
                 className="delete"
@@ -70,7 +68,6 @@ export const TodoModal: React.FC = () => {
               </p>
 
               <p className="block" data-cy="modal-user">
-                {/* For not completed */}
                 <strong
                   className={classNames({
                     'has-text-danger': !currTodo.completed,
@@ -80,7 +77,11 @@ export const TodoModal: React.FC = () => {
                   {currTodo.completed ? 'Done' : 'Planned'}
                 </strong>
                 {' by '}
-                <a href={`mailto:${currentUser?.email}`}>{currentUser?.name}</a>
+                {currentUser ? (
+                  <a href={`mailto:${currentUser.email}`}>{currentUser.name}</a>
+                ) : (
+                  'Unknown user'
+                )}
               </p>
             </div>
           </div>

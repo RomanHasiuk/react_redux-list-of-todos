@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TodoItem } from '../TodoItem';
@@ -6,15 +5,13 @@ import { currentTodoSlice } from '../../features/currentTodo';
 
 export const TodoList: React.FC = () => {
   const todos = useAppSelector(state => state.todos);
-  const filter = useAppSelector(state => state.filter.query);
+  const query = useAppSelector(state => state.filter.query);
   const currentTodo = useAppSelector(state => state.currentTodo);
   const dispatch = useAppDispatch();
   const status = useAppSelector(state => state.filter.status);
 
   const filteredTodos = todos.filter(todo => {
-    const matchesQuery = todo.title
-      .toLowerCase()
-      .includes(filter.toLowerCase());
+    const matchesQuery = todo.title.toLowerCase().includes(query.toLowerCase());
     const matchesStatus =
       status === 'all' ||
       (status === 'active' && !todo.completed) ||
@@ -53,8 +50,8 @@ export const TodoList: React.FC = () => {
               <TodoItem
                 key={todo.id}
                 todo={todo}
-                onClick={() =>
-                  dispatch(currentTodoSlice.actions.setCurrentTodo(todo))
+                onClick={t =>
+                  dispatch(currentTodoSlice.actions.setCurrentTodo(t))
                 }
                 isActive={currentTodo?.id === todo.id}
               />

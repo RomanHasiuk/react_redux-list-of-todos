@@ -10,7 +10,7 @@ export const todosSlice = createSlice({
       return action.payload;
     },
     toggleCompleted: (state, action: PayloadAction<number>) => {
-      const todoId = action.payload.id;
+      const todoId = action.payload;
       const todoToToggle = state.find(t => t.id === todoId);
 
       if (todoToToggle) {
